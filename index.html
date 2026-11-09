@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>יומן · לוח שנה אישי</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- ===== סרגל צדדי ===== -->
+    <aside class="sidebar" id="sidebar" aria-label="סרגל צדדי">
+      <div class="sb-head">
+        <div class="logo" aria-label="יומן">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span class="logo-text">יומן</span>
+        </div>
+        <button class="icon-btn sb-collapse" id="collapseBtn" type="button" aria-label="צמצום סרגל הצד" title="צמצום / הרחבה"></button>
+      </div>
+
+      <button class="create-btn" id="createBtn" type="button" title="יצירת אירוע (N)">
+        <span class="create-ic" data-icon="plus"></span>
+        <span class="create-label">יצירת אירוע</span>
+      </button>
+
+      <nav class="sb-nav" id="sbNav" aria-label="תצוגות">
+        <button type="button" data-view="day"><span data-icon="viewDay"></span><span class="lbl">היום</span><kbd>D</kbd></button>
+        <button type="button" data-view="week"><span data-icon="viewWeek"></span><span class="lbl">שבוע</span><kbd>W</kbd></button>
+        <button type="button" data-view="month"><span data-icon="viewMonth"></span><span class="lbl">חודש</span><kbd>M</kbd></button>
+        <button type="button" data-view="year"><span data-icon="viewYear"></span><span class="lbl">שנה</span><kbd>Y</kbd></button>
+      </nav>
+
+      <div class="sb-scroll">
+        <div class="mini-cal" id="miniCal"></div>
+
+        <section class="sb-section" data-section="tasks">
+          <button class="sb-sec-head" type="button" data-open-panel="tasks">
+            <span data-icon="listChecks"></span><span class="lbl">המשימות שלי</span><span class="badge" id="taskBadge"></span>
+          </button>
+          <div class="sb-sec-body" id="sbTasks"></div>
+        </section>
+
+        <section class="sb-section" data-section="notes">
+          <button class="sb-sec-head" type="button" data-open-panel="notes">
+            <span data-icon="note"></span><span class="lbl">פתקים</span><span class="badge" id="noteBadge"></span>
+          </button>
+          <div class="sb-sec-body" id="sbNotes"></div>
+        </section>
+
+        <section class="sb-section" data-section="reminders">
+          <button class="sb-sec-head" type="button" data-open-panel="reminders">
+            <span data-icon="bell"></span><span class="lbl">תזכורות</span><span class="badge" id="remBadge"></span>
+          </button>
+          <div class="sb-sec-body" id="sbReminders"></div>
+        </section>
+      </div>
+
+      <div class="sb-foot" id="sbFoot"></div>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <!-- ===== אזור מרכזי ===== -->
+    <main class="main" id="main">
+      <header class="topbar">
+        <div class="tb-row">
+          <button class="icon-btn only-mobile" id="menuBtn" type="button" aria-label="תפריט" data-icon="menu"></button>
+          <div class="now-info">
+            <div class="now-date" id="nowDate"></div>
+            <div class="now-clock" id="nowClock" aria-live="off"></div>
+          </div>
+
+          <div class="search" id="search">
+            <span class="search-ic" data-icon="search"></span>
+            <input id="searchInput" type="search" placeholder="חיפוש אירועים, משימות ופתקים" autocomplete="off" aria-label="חיפוש">
+            <kbd class="search-kbd">/</kbd>
+            <div class="search-results" id="searchResults" role="listbox"></div>
+          </div>
+
+          <button class="icon-btn" id="panelBtn" type="button" aria-label="פתקים ותזכורות" title="פתקים, משימות ותזכורות" data-icon="panel"></button>
+        </div>
+
+        <div class="tb-row tb-row--nav">
+          <button class="btn btn-outline" id="todayBtn" type="button" title="חזרה להיום (T)">היום</button>
+          <div class="nav-arrows">
+            <button class="icon-btn" id="prevBtn" type="button" aria-label="הקודם" title="הקודם (→)" data-icon="chevronRight"></button>
+            <button class="icon-btn" id="nextBtn" type="button" aria-label="הבא" title="הבא (←)" data-icon="chevronLeft"></button>
+          </div>
+          <h1 class="period" id="periodTitle"></h1>
+          <div class="seg" id="viewSeg" role="tablist" aria-label="בחירת תצוגה">
+            <button type="button" data-view="day">יום</button>
+            <button type="button" data-view="week">שבוע</button>
+            <button type="button" data-view="month">חודש</button>
+            <button type="button" data-view="year">שנה</button>
+            <span class="seg-pill" aria-hidden="true"></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="view-wrap" id="viewWrap"></div>
+    </main>
+
+    <!-- ===== פתקים, משימות ותזכורות ===== -->
+    <aside class="panel" id="panel" aria-label="פתקים, משימות ותזכורות">
+      <div class="pn-head">
+        <div class="tabs" id="panelTabs" role="tablist">
+          <button type="button" data-tab="tasks">משימות</button>
+          <button type="button" data-tab="notes">פתקים</button>
+          <button type="button" data-tab="reminders">תזכורות</button>
+        </div>
+        <button class="icon-btn" id="panelClose" type="button" aria-label="סגירה" data-icon="x"></button>
+      </div>
+      <div class="pn-body" id="panelBody"></div>
+    </aside>
+  </div>
+
+  <div class="tooltip" id="tooltip" role="tooltip"></div>
+  <div id="modalRoot"></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
